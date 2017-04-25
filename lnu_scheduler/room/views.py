@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
 
-from room.models import Room
+from .models import Room
 
 
 class RoomView(View):
@@ -14,7 +14,7 @@ class RoomView(View):
         #     data = Room.get_by_id(room_id)
         # else:
         #     data = Room.all()
-        return JsonResponse(data, status=200)
+        return JsonResponse(data, status=200, safe=False)
 
     def post(self, request):
         pass

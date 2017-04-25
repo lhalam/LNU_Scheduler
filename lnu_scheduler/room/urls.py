@@ -2,8 +2,8 @@
 
 from django.conf.urls import url
 
-from room.views import RoomView
+from . import views
 
 urlpatterns = [
-    url(r'^$', RoomView.as_view(), name='room'),
+    url(r'^$', views.RoomView.as_view(), name='room'),
 ]

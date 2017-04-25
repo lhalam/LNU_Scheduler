@@ -9,15 +9,15 @@ class Room(models.Model):
     @staticmethod
     def get_by_id(room_id):
         try:
-            room = Room.objects.get(id=room_id)
-        except Room.DoesNotExist:
+            room = self.objects.get(id=room_id)
+        except self.DoesNotExist:
             return None
         return room
 
     @staticmethod
     def get_by_name(room_name):
-        return Room.objects.filter(name=room_name)
+        return self.objects.filter(name=room_name)
 
     @staticmethod
     def all():
-        return Room.objects.all()
+        return self.objects.all()

@@ -1,16 +1,15 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 
-import { Room } from "./components/Room";
+import Rooms from "./components/Rooms";
 
 class App extends React.Component {
-
     render() {
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-xs-10 col-xs-offset-1">
-                        <Room data={'fhwjefh'}/>
+                        <Rooms/>
                     </div>
                 </div>
             </div>
@@ -18,4 +17,5 @@ class App extends React.Component {
     }
 }
 
-render(<App />, window.document.getElementById('app'));
+const app = document.getElementById('app')
+ReactDOM.render(<App />, app);

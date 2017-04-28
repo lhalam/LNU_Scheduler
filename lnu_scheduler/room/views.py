@@ -8,8 +8,9 @@ class RoomView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
     def get(self, request, room_id=None):
-        data = [{'id': 1, 'name': "119a"},
-                {'id': 2, 'name': "118a"}]
+        data = [{'id': 1, 'name': "119a", 'places': 24},
+                {'id': 2, 'name': "118a", 'places': 26},
+                {'id': 3, 'name': "119b", 'places': 20}]
         # if room_id:
         #     data = Room.get_by_id(room_id)
         # else:

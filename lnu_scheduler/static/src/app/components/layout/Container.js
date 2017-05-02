@@ -8,15 +8,19 @@ export default class Container extends React.Component {
         this.state = {
 			rooms:[{name:"default",
 					id:0,
-					places:0
+					places:0,
+					is_free:true
 				}]
         };
     }
 
     componentWillMount() {
-    $.get(`http://localhost:8090/api/01/room/`)
-      .then(res => {
-        this.setState({rooms:res});
+    $.get('http://localhost:8090/api/01/room/', (res) => {
+    	function isBigEnough(value) {
+  			return value.places >= 22;
+		}
+    	
+        this.setState({rooms:res.filter(isBigEnough)});
        	console.log(res);
       });
 	}
@@ -27,7 +31,8 @@ export default class Container extends React.Component {
 			rows.push(<Room key={this.state.rooms[i].id.toString()} 
 				name={this.state.rooms[i].name} 
 				id={this.state.rooms[i].id} 
-				places={this.state.rooms[i].places}/>);
+				places={this.state.rooms[i].places}
+				is_free={this.state.rooms[i].is_free}/>);
 		}
 
         return (

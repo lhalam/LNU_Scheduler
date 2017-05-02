@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
+from django.http import QueryDict
 
 from .models import Room
 
@@ -8,13 +9,11 @@ class RoomView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
     def get(self, request, room_id=None):
-        data = [{'id': 1, 'name': "119a", 'places': 24},
-                {'id': 2, 'name': "118a", 'places': 26},
-                {'id': 3, 'name': "119b", 'places': 20}]
-        # if room_id:
-        #     data = Room.get_by_id(room_id)
-        # else:
-        #     data = Room.all()
+        if room_id:
+            rooms = Room.get_by_id(3)
+        else:
+            rooms = Room.get_all()
+        data = [room.to_dict() for room in rooms]
         return JsonResponse(data, status=200, safe=False)
 
     def post(self, request):
@@ -22,6 +21,6 @@ class RoomView(View):
 
     def put(self, request, room_id):  # pylint: disable=no-self-use
         pass
-
-    def delete(self, request, room_id):  # pylint: disable=no-self-use
+        
+    def delete(self, request):  # pylint: disable=no-self-use
         pass

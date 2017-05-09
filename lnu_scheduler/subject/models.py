@@ -13,7 +13,7 @@ class Subject(models.Model):
 
     @staticmethod
     def get_by_title(sub_title):
-        return Subject.objects.filter(name=sub_title)
+        return Subject.objects.filter(title=sub_title)
 
     @staticmethod
     def get_all():

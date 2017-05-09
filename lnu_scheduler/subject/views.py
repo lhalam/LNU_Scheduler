@@ -1,18 +1,18 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
 
-from .models import Room
+from .models import Subject
 
 
-class RoomView(View):
+class SubjectView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, room_id=None):
-        if room_id:
-            rooms = Room.get_by_id(room_id)
+    def get(self, request, subject_id=None):
+        if subject_id:
+            subjects = Subject.get_by_id(subject_id)
         else:
-            rooms = Room.get_all()
-        data = [room.to_dict() for room in rooms]
+            subjects = Subject.get_all()
+        data = [subject.to_dict() for subject in subjects]
         return JsonResponse(data, status=200, safe=False)
 
     def post(self, request):

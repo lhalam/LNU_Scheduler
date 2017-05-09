@@ -6,7 +6,6 @@ from django.db import models
 class Room(models.Model):
     name = models.CharField(default='', max_length=50)
     places = models.PositiveSmallIntegerField(default=0)
-    is_free = models.BooleanField(default=True)
 
     @staticmethod
     def get_by_id(room_id):
@@ -15,10 +14,6 @@ class Room(models.Model):
     @staticmethod
     def get_by_name(room_name):
         return Room.objects.filter(name=room_name)
-
-    @staticmethod
-    def get_free():
-        return Room.objects.filter(is_free=True)
 
     @staticmethod
     def get_all():

@@ -13,7 +13,11 @@ class Room(models.Model):
 
     @staticmethod
     def get_by_name(room_name):
-        return Room.objects.filter(name=room_name)
+        return Room.objects.filter(name__contains=room_name)
+
+    @staticmethod
+    def get_by_places(room_places):
+        return Room.objects.filter(places__gt=room_places)
 
     @staticmethod
     def get_all():
@@ -27,5 +31,4 @@ class Room(models.Model):
         data["id"] = self.id
         data["name"] = self.name
         data["places"] = self.places
-        data["is_free"] = self.is_free
         return data 

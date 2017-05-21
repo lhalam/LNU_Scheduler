@@ -7,9 +7,13 @@ from .models import Room
 class RoomView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, room_id=None):
-        if room_id:
-            rooms = Room.get_by_id(room_id)
+    def get(self, request):
+        if request.GET.get('id'):
+            rooms = Room.get_by_id(request.GET.get('id'))
+        elif request.GET.get('name'):
+            rooms = Room.get_by_name(request.GET.get('name'))
+        elif request.GET.get('places'):
+            rooms = Room.get_by_places(request.GET.get('places'))
         else:
             rooms = Room.get_all()
         data = [room.to_dict() for room in rooms]

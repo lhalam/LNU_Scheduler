@@ -2,7 +2,7 @@ import React from "react";
 
 import Room from "./Room";
 
-export default class Container extends React.Component {
+export default class RoomsContainer extends React.Component {
     constructor(props) {
         super();
         this.state = {
@@ -15,9 +15,10 @@ export default class Container extends React.Component {
     }
 
     componentWillMount() {
-    $.get('http://localhost:8090/api/01/room/', (res) => {
+    $.get('http://localhost:8090/api/01/room/', { places:19 } )
+     .done((res) => {
     	function isBigEnough(value) {
-  			return value.places >= 22;
+  			return value.places >= 18;
 		}
     	
         this.setState({rooms:res.filter(isBigEnough)});
@@ -31,8 +32,7 @@ export default class Container extends React.Component {
 			rows.push(<Room key={this.state.rooms[i].id.toString()} 
 				name={this.state.rooms[i].name} 
 				id={this.state.rooms[i].id} 
-				places={this.state.rooms[i].places}
-				is_free={this.state.rooms[i].is_free}/>);
+				places={this.state.rooms[i].places}/>);
 		}
 
         return (

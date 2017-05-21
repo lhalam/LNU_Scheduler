@@ -14,11 +14,11 @@ class Teacher(models.Model):
 
     @staticmethod
     def get_by_name(teacher_name):
-        return Teacher.objects.filter(name=teacher_name)
+        return Teacher.objects.filter(name__contains=teacher_name)
 
     @staticmethod
     def get_by_surname(teacher_surname):
-        return Teacher.objects.filter(name=teacher_surname)
+        return Teacher.objects.filter(surname__contains=teacher_surname)
 
     @staticmethod
     def get_all():

@@ -7,9 +7,11 @@ from .models import Subject
 class SubjectView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, subject_id=None):
-        if subject_id:
-            subjects = Subject.get_by_id(subject_id)
+    def get(self, request):
+        if request.GET.get('id'):
+            subjects = Subject.get_by_id(request.GET.get('id'))
+        elif request.GET.get('title'):
+            subjects = Subject.get_by_title(request.GET.get('title'))
         else:
             subjects = Subject.get_all()
         data = [subject.to_dict() for subject in subjects]
@@ -18,7 +20,7 @@ class SubjectView(View):
     def post(self, request):
         pass
 
-    def put(self, request, subject_id):  # pylint: disable=no-self-use
+    def put(self, request):  # pylint: disable=no-self-use
         pass
         
     def delete(self, request):  # pylint: disable=no-self-use

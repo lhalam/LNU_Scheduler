@@ -7,9 +7,13 @@ from .models import Teacher
 class TeacherView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, teacher_id=None):
-        if teacher_id:
-            teachers = Teacher.get_by_id(teacher_id)
+    def get(self, request):
+        if request.GET.get('id'):
+            teachers = Teacher.get_by_id(request.GET.get('id'))
+        elif request.GET.get('name'):
+            teachers = Teacher.get_by_name(request.GET.get('name'))
+        elif request.GET.get('surname'):
+            teachers = Teacher.get_by_surname(request.GET.get('surname'))
         else:
             teachers = Teacher.get_all()
         data = [teacher.to_dict() for teacher in teachers]

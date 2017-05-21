@@ -1,18 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
-import Rooms from "./components/Rooms";
+import Header from "./components/header/Header"
+import Footer from "./components/footer/Footer"
+
+import Schedule from "./components/Schedule";
+
+import RoomsContainer from "./components/room/RoomsContainer";
+import TeachersContainer from "./components/teacher/TeachersContainer";
+import SubjectsContainer from "./components/subject/SubjectsContainer";
 
 class App extends React.Component {
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-xs-10 col-xs-offset-1">
-                        <Rooms/>
-                    </div>
+            <Router>
+                <div>
+                    <Header/>
+                    <Route exact path="/home" component={Schedule}/>
+                    <Route path="/rooms" component={RoomsContainer}/>
+                    <Route path="/teachers" component={TeachersContainer}/>
+                    <Route path="/subjects" component={SubjectsContainer}/>
+                    <Footer/>
                 </div>
-            </div>
+            </Router>
         );
     }
 }

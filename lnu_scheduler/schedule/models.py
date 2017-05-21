@@ -16,7 +16,7 @@ DAYS_OF_WEEK = (
 ('7', 'Sunday'),
 )
 
-LESSON_NUMBER = (
+SUBJECT_NUMBER = (
 ('1', '8:30-9:50'),
 ('2', '10:10-11:30'),
 ('3', '11:50-13:10'),
@@ -32,11 +32,31 @@ class Schedule(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     day = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
-    lesson = models.CharField(max_length=1, choices=LESSON_NUMBER)
+    sub_number = models.CharField(max_length=1, choices=SUBJECT_NUMBER)
 
     @staticmethod
     def get_by_id(item_id):
         return Schedule.objects.filter(id=item_id)
+
+    @staticmethod
+    def get_by_subject(item_sub):
+        return Schedule.objects.filter(subject__contains=item_sub)
+
+    @staticmethod
+    def get_by_room(item_room):
+        return Schedule.objects.filter(room__contains=item_room)
+
+    @staticmethod
+    def get_by_teacher(item_teacher):
+        return Schedule.objects.filter(teacher__contains=item_teacher)
+
+    @staticmethod
+    def get_by_day(item_day):
+        return Schedule.objects.filter(day=item_day)
+
+    @staticmethod
+    def get_by_sub_number(item_num):
+        return Schedule.objects.filter(sub_number=item_num)
 
     @staticmethod
     def get_all():
@@ -52,5 +72,5 @@ class Schedule(models.Model):
         data["room"] = self.room.to_dict()
         data["teacher"] = self.teacher.to_dict()
         data["day"] = self.day
-        data["lesson"] = self.lesson
+        data["sub_number"] = self.sub_number
         return data 

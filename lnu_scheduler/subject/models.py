@@ -19,8 +19,14 @@ class Subject(models.Model):
     def get_all():
         return Subject.objects.all()
 
-    def delete_by_id(sub_id):
-        Subject.objects.filter(id=sub_id).delete()
+    @staticmethod
+    def add_by_title(sub_title):
+        obj = Subject.objects.create(title=sub_title)
+        obj.save()
+
+    @staticmethod
+    def delete_by_title(sub_title):
+        Subject.objects.filter(title=sub_title).delete()
 
     def to_dict(self):
         data = {}

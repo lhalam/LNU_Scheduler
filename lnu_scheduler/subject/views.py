@@ -8,12 +8,19 @@ class SubjectView(View):
     """Service view handles GET, POST, PUT, DELETE requests."""
 
     def get(self, request):
-        if request.GET.get('id'):
-            subjects = Subject.get_by_id(request.GET.get('id'))
-        elif request.GET.get('title'):
-            subjects = Subject.get_by_title(request.GET.get('title'))
-        else:
+        if request.GET.get('action')=='add':
+            Subject.add_by_title(request.GET.get('title'))
             subjects = Subject.get_all()
+        elif request.GET.get('action')=='remove':
+            Subject.delete_by_title(request.GET.get('title'))
+            subjects = Subject.get_all()
+        else:
+            if request.GET.get('id'):
+                subjects = Subject.get_by_id(request.GET.get('id'))
+            elif request.GET.get('title'):
+                subjects = Subject.get_by_title(request.GET.get('title'))
+            else:
+                subjects = Subject.get_all()
         data = [subject.to_dict() for subject in subjects]
         return JsonResponse(data, status=200, safe=False)
 

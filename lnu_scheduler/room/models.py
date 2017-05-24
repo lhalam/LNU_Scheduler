@@ -23,6 +23,16 @@ class Room(models.Model):
     def get_all():
         return Room.objects.all()
 
+    @staticmethod
+    def add(room_name, room_places):
+        obj = Room.objects.create(name=room_name, places=room_places)
+        obj.save()
+
+    @staticmethod
+    def delete_by_name(room_name):
+        Room.objects.filter(name=room_name).delete()
+    
+    @staticmethod
     def delete_by_id(room_id):
         Room.objects.filter(id=room_id).delete()
 

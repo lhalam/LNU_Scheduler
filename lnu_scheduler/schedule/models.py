@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 from room.models import Room
+from group.models import Group
 from subject.models import Subject
 from teacher.models import Teacher
 
@@ -30,6 +31,7 @@ SUBJECT_NUMBER = (
 class Schedule(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     day = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
     sub_number = models.CharField(max_length=1, choices=SUBJECT_NUMBER)
@@ -44,7 +46,11 @@ class Schedule(models.Model):
 
     @staticmethod
     def get_by_room(item_room):
-        return Schedule.objects.filter(room__contains=item_room)
+        return Schedule.objects.filter(room__name=item_room)
+
+    @staticmethod
+    def get_by_group(item_group):
+        return Schedule.objects.filter(group__name=item_group)
 
     @staticmethod
     def get_by_teacher(item_teacher):
@@ -70,6 +76,7 @@ class Schedule(models.Model):
         data["id"] = self.id
         data["subject"] = self.subject.to_dict()
         data["room"] = self.room.to_dict()
+        data["group"] = self.group.to_dict()
         data["teacher"] = self.teacher.to_dict()
         data["day"] = self.day
         data["sub_number"] = self.sub_number

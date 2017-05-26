@@ -2,7 +2,11 @@ import React from "react";
 
 import ScheduleItem from "./ScheduleItem";
 
-import { Form, FormGroup, Button, Table, SplitButton, MenuItem, FormControl, ControlLabel } from 'react-bootstrap';
+import { Form, FormGroup, Button, Table, DropdownButton, MenuItem, FormControl, ControlLabel } from 'react-bootstrap';
+
+const border = {
+	border: '1px solid black'
+} 
 
 export default class Schedule extends React.Component {
     constructor(props) {
@@ -11,46 +15,44 @@ export default class Schedule extends React.Component {
 			schedule:[{id:0,
 					day:0,
 					sub_number:0,
-					room_id:0,
-					subject_id:0,
-					teacher_id:0
-				}]
+					room:{},
+					group:{},
+					subject:{},
+					teacher:{}
+				}],
+
+			rooms:[{
+				name:"default",
+				id:0,
+				places:0
+			}],
+		
+			dropTitle:"Select Room"			
         };
     }
 
     componentWillMount() {
     $.get('http://localhost:8090/api/01/room/')
      .done((res) => {
-        this.setState({schedule:res});
+        this.setState({rooms:res});
        	console.log(res);
       });
 	}
 
-    showSchedule(event) {
-    	const _name = this.refs.name.value;
+    showSchedule(selected_room) {
+    	this.setState({dropTitle:selected_room});
     	var id = 0;
-    	$.get('http://localhost:8090/api/01/room/', {name:_name})
+    	$.get('http://localhost:8090/api/01/schedule/', {room:selected_room})
      		.done((res) => {
-        	id=res[0].id;
-       		console.log(res);
-       		console.log(id);
-      	});
-		
-     	
-
-        $.get('http://localhost:8090/api/01/schedule/', {id:id})
-        .done((res) => {
             this.setState({schedule:res});
             console.log(res);
-        });
-
-   event.preventDefault();
+        	});
     }
 
     render() {
     	var days = ['Monday',
     				'Tuesday',
-    				'Wednasday',
+    				'Wednesday',
     				'Thursday',
     				'Friday']
 
@@ -64,51 +66,59 @@ export default class Schedule extends React.Component {
     					'19:40-21:00']
 
     	var day = [];
-    	var h_week = [];
+    	var h_week = [<td>Time</td>];
     	var b_week = [];
 
-    	for(var i=0; i < days.length; i++){
-    		h_week.push(<th>{days[i]}</th>);
-    		b_week.push(<td><ScheduleItem key={i.toString()}/></td>);
+		for(var j=0; j < days.length; j++){
+    		h_week.push(<th>{days[j]}</th>);
     	}
 
     	for(var i=0; i < sub_nums.length; i++){	
+    		b_week = [<td>{i+1}. {sub_nums[i]}</td>];
+        	for(var j=0; j < days.length; j++){
+        		let item = {id:0};
+        		for(var k=0; k < this.state.schedule.length; k++)
+        		{	
+        			const item1 = this.state.schedule[k];
+        			if(item1.day == j+1 && item1.sub_number == i+1)
+        			{
+        				item = item1;
+        				break;
+        			}
+        		}
+        		if(item.id === 0)
+        			b_week.push(<td style={border} key={j.toString()}></td>);
+        		else
+        			b_week.push(<td style={border}><ScheduleItem schedule={item}/></td>);
+    		}
     		day.push(<tr>{b_week}</tr>);
     	}
 
     	var rooms = [];
-
-    	for(var i=0; i < this.state.schedule.length; i++){	
-    		rooms.push(<option ref="name" >{this.state.schedule[i].name}</option>);
+    	for(var i=0; i < this.state.rooms.length; i++){	
+    		rooms.push(<MenuItem eventKey={this.state.rooms[i].name}>{this.state.rooms[i].name}</MenuItem>);
     	}
 
 
         return (
-        <div>
-
-			<FormGroup controlId="formControlsSelectMultiple">
-      <ControlLabel>Multiple select</ControlLabel>
-      <FormControl componentClass="select" onChange={this.showSchedule.bind(this)}>
-    	{rooms}
-      </FormControl>
-    </FormGroup>
-
-
-			<br/>
-			<hr/>
-			<br/>
-
-			<Table responsive>
-			    <thead>
-			      <tr>
-			        {h_week}
-			      </tr>
-			    </thead>
-			    <tbody>
-			      {day}
-			    </tbody>
-			</Table>
-		</div>
+	        <div>
+				<DropdownButton title={this.state.dropTitle} id='drop' onSelect={this.showSchedule.bind(this)}>
+	    			{rooms}
+	        	</DropdownButton>
+				<br/>
+				<hr/>
+				<br/>
+				<Table responsive>
+				    <thead>
+				      <tr>
+				        {h_week}
+				      </tr>
+				    </thead>
+				    <tbody>
+				      {day}
+				    </tbody>
+				</Table>
+			</div>
         );
     }
 }

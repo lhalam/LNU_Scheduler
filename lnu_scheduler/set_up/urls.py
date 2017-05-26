@@ -4,6 +4,7 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^api/01/room/', include('room.urls')),
+    url(r'^api/01/group/', include('group.urls')),
     url(r'^api/01/subject/', include('subject.urls')),
     url(r'^api/01/teacher/', include('teacher.urls')),
     url(r'^api/01/schedule/', include('schedule.urls')),

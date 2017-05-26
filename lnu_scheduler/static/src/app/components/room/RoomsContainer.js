@@ -18,8 +18,11 @@ export default class RoomsContainer extends React.Component {
     }
 
     componentWillMount() {
-    $.get('http://localhost:8090/api/01/room/')
-     .done((res) => {
+    $.ajax ({ 
+            method: "GET",
+            url:'http://localhost:8090/api/01/room/',
+            contentType: "application/json"
+        }).done((res) => {
         this.setState({rooms:res});
        	console.log(res);
       });

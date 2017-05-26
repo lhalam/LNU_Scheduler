@@ -16,6 +16,8 @@ class ScheduleView(View):
             items = Schedule.get_by_teacher(request.GET.get('teacher'))
         elif request.GET.get('room'):
             items = Schedule.get_by_room(request.GET.get('room'))
+        elif request.GET.get('group'):
+            items = Schedule.get_by_group(request.GET.get('group'))
         elif request.GET.get('day'):
             items = Schedule.get_by_day(request.GET.get('day'))
         elif request.GET.get('subject_number'):

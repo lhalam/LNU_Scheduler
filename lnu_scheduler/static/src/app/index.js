@@ -8,6 +8,7 @@ import Footer from "./components/footer/Footer"
 import Schedule from "./components/Schedule";
 
 import RoomsContainer from "./components/room/RoomsContainer";
+import GroupsContainer from "./components/group/GroupsContainer";
 import TeachersContainer from "./components/teacher/TeachersContainer";
 import SubjectsContainer from "./components/subject/SubjectsContainer";
 
@@ -19,6 +20,7 @@ class App extends React.Component {
                     <Header/>
                     <Route exact path="/home" component={Schedule}/>
                     <Route path="/rooms" component={RoomsContainer}/>
+                    <Route path="/groups" component={GroupsContainer}/>
                     <Route path="/teachers" component={TeachersContainer}/>
                     <Route path="/subjects" component={SubjectsContainer}/>
                     <Footer/>

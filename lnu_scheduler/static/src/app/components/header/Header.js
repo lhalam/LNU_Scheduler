@@ -4,16 +4,15 @@ import { Link } from 'react-router-dom';
 
 import { Nav, NavItem } from 'react-bootstrap';
 
-const header = {
-  color: 'white',
-  backgroundColor: '#132365',
-  height: '45px',
-  align: 'center'
-};
-
 export default class Header extends React.Component {
 
 	render(){
+		const header = {
+  			color: 'white',
+  			backgroundColor: '#132365',
+  			height: '45px',
+  			align: 'center'};
+		
 		return(
 			<div>						
 	      		<Nav style={header} bsStyle="tabs">

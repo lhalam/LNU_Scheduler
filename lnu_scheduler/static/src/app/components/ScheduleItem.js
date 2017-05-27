@@ -1,6 +1,6 @@
 import React from "react";
 
-const grey = {color: 'grey', fontSize:'11px'};
+import { Label } from 'react-bootstrap';
 
 export default class ScheduleItem extends React.Component {
 	constructor(props) {
@@ -13,14 +13,24 @@ export default class ScheduleItem extends React.Component {
 					group:{},
 					subject:{},
 					teacher:{},
-					}
+			}
 		}
     };  
 
+    handleRemove() {
+        this.props.removing(this.props.schedule.id);
+    }
+
     render() {
+    	const grey = {color: 'grey', fontSize:'11px'};
+        const curr = {cursor: 'pointer',
+            marginLeft: '10px'};
+
         return (
             <div>
-                <h5>{this.props.schedule.subject.title}</h5>
+                <h5>{this.props.schedule.subject.title}
+                    <Label style={curr} bsStyle="danger" onClick={this.handleRemove.bind(this)}>X</Label>
+                </h5>
                 <span><span style={grey}>Teacher:</span> {this.props.schedule.teacher.first_name}</span>
                 <span> {this.props.schedule.teacher.middle_name}</span>
                 <span> {this.props.schedule.teacher.last_name}</span>

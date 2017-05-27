@@ -12,7 +12,7 @@ class TeacherView(View):
             Teacher.add(request.GET.get('first_name'), request.GET.get('middle_name'), request.GET.get('last_name'))
             teachers = Teacher.get_all()
         elif request.GET.get('action')=='remove':
-            Teacher.delete_by_name(request.GET.get('first_name'))
+            Teacher.delete_by_id(request.GET.get('id'))
             teachers = Teacher.get_all()
         else:
             if request.GET.get('id'):

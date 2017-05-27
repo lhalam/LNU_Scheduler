@@ -2,14 +2,6 @@ import React from "react";
 
 import { Label } from 'react-bootstrap';
 
-const curr = {cursor: 'pointer',
-              marginLeft: '10px'};
-const grey = {color: 'grey', fontSize:'11px'};
-const border = {border: '1px solid black', 
-                borderRadius:'5px',
-                marginBottom: '5px',
-                marginLeft: '112px'};
-
 export default class Teacher extends React.Component {
 	constructor(props) {
         super();
@@ -22,10 +14,18 @@ export default class Teacher extends React.Component {
     }
 
     handleRemove() {
-        this.props.removing(this.props.first_name);
+        this.props.removing(this.props.id);
     }
 
     render() {
+        const curr = {cursor: 'pointer',
+                marginLeft: '10px'};
+        const grey = {color: 'grey', fontSize:'11px'};
+        const border = {border: '1px solid black', 
+                borderRadius:'5px',
+                marginBottom: '5px',
+                marginLeft: '112px'};
+
         return (
             <div style={border} className="container"> 
                 <h5><span style={grey}>First name: </span> {this.props.first_name}  

@@ -49,6 +49,10 @@ class Schedule(models.Model):
         return Schedule.objects.filter(room__name=item_room)
 
     @staticmethod
+    def get_by_room_id(room_id):
+        return Schedule.objects.filter(room__id=room_id)
+
+    @staticmethod
     def get_by_group(item_group):
         return Schedule.objects.filter(group__name=item_group)
 
@@ -68,6 +72,12 @@ class Schedule(models.Model):
     def get_all():
         return Schedule.objects.all()
 
+    @staticmethod
+    def add(day, sub_num, subject, teacher, room, group):
+        obj = Schedule.objects.create(day=day, sub_number=sub_num, subject_id=subject, teacher_id=teacher, room_id=room, group_id=group)
+        obj.save()
+
+    @staticmethod
     def delete_by_id(item_id):
         Schedule.objects.filter(id=item_id).delete()
 

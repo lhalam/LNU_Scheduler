@@ -1,10 +1,10 @@
 import React from "react";
 
+import axios from "axios";
+
 import Group from "./Group";
 
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
-
-const marg = {marginBottom: '50px'};
 
 export default class GroupsContainer extends React.Component {
     constructor(props) {
@@ -18,22 +18,25 @@ export default class GroupsContainer extends React.Component {
     }
 
     componentWillMount() {
-    $.ajax ({ 
-            method: "GET",
-            url:'http://localhost:8090/api/01/group/',
-            contentType: "application/json"
-        }).done((res) => {
-        this.setState({groups:res});
-       	console.log(res);
-      });
-	}
+        axios.get('http://localhost:8090/api/01/group/')
+            .then((res) => {
+                this.setState({groups:res.data});
+                console.log(res);
+            });
+    }
 
     addGroup(event) {
         const _name = this.refs.name.value;
         const _students = this.refs.students.value;
-        $.get('http://localhost:8090/api/01/group/', {action:'add', name:_name, students:_students})
-        .done((res) => {
-            this.setState({groups:res});
+        axios.get('http://localhost:8090/api/01/group/', {
+            params: {
+                action:'add', 
+                name:_name, 
+                students:_students
+            }
+        })
+        .then((res) => {
+            this.setState({groups:res.data});
             console.log(res);
             alert(`Group ${_name} will be added.`);
         });
@@ -42,15 +45,22 @@ export default class GroupsContainer extends React.Component {
     }
 
     removeGroup(_name) {
-        $.get('http://localhost:8090/api/01/group/', {action:'remove', name:_name})
-        .done((res) => {
-            this.setState({groups:res});
+        axios.get('http://localhost:8090/api/01/group/', {
+            params: {
+                action:'remove', 
+                name:_name
+            }
+        })
+        .then((res) => {
+            this.setState({groups:res.data});
             console.log(res);
             alert(`Group ${_name} will be removed.`);
         });
     }
 
     render() {
+        const marg = {marginBottom: '50px'};
+        
     	var rows = [];
 		for (var i=0; i < this.state.groups.length; i++) {
 			rows.push(<Group key={this.state.groups[i].id.toString()} 
@@ -67,7 +77,7 @@ export default class GroupsContainer extends React.Component {
                 <Form inline className="container" onSubmit={this.addGroup.bind(this)}>                    
                     <input className="form-control" type="text" ref="name" placeholder="Group name:" />
                     <input className="form-control" type="number" ref="students" placeholder="Students:" />
-                    <Button bsStyle="success" type="submit">Add Group</Button>
+                    <Button bsStyle="primary" type="submit">Add Group</Button>
                 </Form>
             </div>
         );
